@@ -9,7 +9,16 @@ class Tweet {
 
 	//returns either 'live_event', 'achievement', 'completed_event', or 'miscellaneous'
     get source():string {
-        return "unknown";
+    if (this.text.toLowerCase().search("just completed") != -1 || this.text.toLowerCase().search("just posted") != -1){
+    		return "completed_event";
+	}
+	else if(this.text.toLowerCase().search("achieved") != -1){
+		return "achievement";
+		}	
+	else if(this.text.search("Runkeeper Live") != -1){
+		return "live_event";
+		}
+	else return "miscellaneous";
     }
 
     //returns a boolean, whether the text includes any content written by the person tweeting.
