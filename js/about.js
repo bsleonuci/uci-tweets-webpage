@@ -27,9 +27,12 @@ function getLatestTweet(tweet_array){
 }
 
 function getCounts(tweet_array){
-	var counter = { completed_count: 0, achievement_count: 0, event_count: 0, misc_count: 0 };
+	var counter = { completed_count: 0, achievement_count: 0, event_count: 0, misc_count: 0, written_count: 0 };
 	for (let tweet of tweet_array){
-		if(tweet.source == "completed_event") counter.completed_count++;
+		if(tweet.source == "completed_event"){
+			counter.completed_count++;
+			if(tweet.written) counter.written_count++;
+		}
 		else if(tweet.source == "achievement") counter.achievement_count++;
 		else if(tweet.source == "live_event") counter.event_count++;
 		else if(tweet.source == "miscellaneous") counter.misc_count++;
@@ -37,9 +40,10 @@ function getCounts(tweet_array){
 	return counter;
 }
 
+
 function toPercent(part, total){
 	var percent = part/total;
-	return math.format(percent, { notation: "fixed", precision: 2 });
+	return math.format(percent * 100, { notation: "fixed", precision: 2 });
 }
 
 function parseTweets(runkeeper_tweets) {
@@ -70,6 +74,8 @@ function parseTweets(runkeeper_tweets) {
 	$('.achievementsPct').text(toPercent(counter.achievement_count, total) + "%");
 	$('.miscellaneous').text(counter.misc_count);
 	$('.miscellaneousPct').text(toPercent(counter.misc_count, total) + "%");
+	$('.written').text(counter.written_count);
+	$('.writtenPct').text(toPercent(counter.written_count, total) + "%");
 }
 
 //Wait for the DOM to load

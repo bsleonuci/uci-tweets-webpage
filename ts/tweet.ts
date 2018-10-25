@@ -9,13 +9,13 @@ class Tweet {
 
 	//returns either 'live_event', 'achievement', 'completed_event', or 'miscellaneous'
     get source():string {
-    if (this.text.toLowerCase().search("just completed") != -1 || this.text.toLowerCase().search("just posted") != -1){
+    if (this.text.toLowerCase().includes("just completed")|| this.text.toLowerCase().includes("just posted")){
     		return "completed_event";
 	}
-	else if(this.text.toLowerCase().search("achieved") != -1){
+	else if(this.text.toLowerCase().includes("achieved")){
 		return "achievement";
 		}	
-	else if(this.text.search("Runkeeper Live") != -1){
+	else if(this.text.includes("Runkeeper Live")){
 		return "live_event";
 		}
 	else return "miscellaneous";
@@ -23,7 +23,7 @@ class Tweet {
 
     //returns a boolean, whether the text includes any content written by the person tweeting.
     get written():boolean {
-        return false;
+    return ((this.source == "completed_event") && (this.text.toLowerCase().includes(" - ")))
         //TODO: identify whether the tweet is written
     }
 
@@ -32,23 +32,33 @@ class Tweet {
             return "";
         }
         //TODO: parse the written text from the tweet
-        return "";
+	var begin:number = this.text.search(" - ") + 3;
+	var end:number = this.text.search("https://t.co");
+	
+	return this.text.slice(begin, end);
     }
 
     get activityType():string {
         if (this.source != 'completed_event') {
             return "unknown";
         }
-        //TODO: parse the activity type from the text of the tweet
-        return "";
+	var words = this.text.split(" ");
+	if (words[5] == "in") return "unknown";
+	//TODO: parse the activity type from the text of the tweet
+        return words[5];
     }
 
     get distance():number {
         if(this.source != 'completed_event') {
             return 0;
-        }
-        //TODO: prase the distance from the text of the tweet
-        return 0;
+	}
+	var kmconvert:number = 0.62137119224;
+	var words = this.text.split(" ");
+	var dist:number = parseFloat(words[3]);
+	if (words[4] == "km") dist = (dist * kmconvert);
+	if (words[5] == "in") return 0;
+        //TODO: parse the distance from the text of the tweet
+	return dist; //return in miles
     }
 
     getHTMLTableRow(rowNumber:number):string {
