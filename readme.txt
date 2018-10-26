@@ -5,7 +5,15 @@
 
 
 2. What online resources did you consult when completing this assignment? (list specific URLs)
-	
+	https://developer.twitter.com/en/docs/tweets/data-dictionary/overview/intro-to-tweet-json
+	https://developer.twitter.com/en/docs/tweets/search/api-reference/get-search-tweets
+	https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch	
+	https://api.jquery.com/empty/
+	https://stackoverflow.com/questions/5007352/how-to-escape-hash-character-in-url
+	https://www.w3schools.com/TAGs/
+	http://mathjs.org/docs/reference/functions/format.html
+	https://vega.github.io/vega-lite/examples/bar.html
+	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map
 
 
 3. What classmates or other individuals did you consult as part of this assignment? What did you discuss?
