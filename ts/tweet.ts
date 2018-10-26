@@ -23,7 +23,7 @@ class Tweet {
 
     //returns a boolean, whether the text includes any content written by the person tweeting.
     get written():boolean {
-    return ((this.source == "completed_event") && (this.text.toLowerCase().includes(" - ")))
+    return (((this.source == "completed_event") && (this.text.toLowerCase().includes(" - "))) || ((this.source != "completed_event") && (this.source != "achievement") && (this.source != "live_event")));
         //TODO: identify whether the tweet is written
     }
 
@@ -32,10 +32,13 @@ class Tweet {
             return "";
         }
         //TODO: parse the written text from the tweet
-	var begin:number = this.text.search(" - ") + 3;
-	var end:number = this.text.search("https://t.co");
-	
-	return this.text.slice(begin, end);
+	else if(this.source == "completed_event"){
+		var begin:number = this.text.search(" - ") + 3;
+		return (this.text.slice(begin));	
+	}
+	else {
+		return this.text;
+	}
     }
 
     get activityType():string {
