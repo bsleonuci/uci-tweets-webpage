@@ -9,10 +9,15 @@ function getActivityMap(tweet_array){
 	return activity_map;
 }
 
+//find three most popular activities in one loop of map, return all three in one object
+
 function getThreeMost(activity_map){
 	var first = ["unknown", 0];
 	var second = ["unknown", 0];
 	var third = ["unknown", 0];
+
+	//if an activity is outranked, percolate downward
+
 	for(let pair of activity_map){
 		if(pair[1] > first[1]){
 			third = second;
@@ -43,18 +48,24 @@ function parseTweets(runkeeper_tweets) {
 	for(let pair of activity_map){
 		console.log(pair);
 	}
-	
+
 	var three_most = getThreeMost(activity_map);
 	
 	var activities = Array();
+
+	//packaging activity graph info for all activities in JSON form, and adding each object to array
 
 	for(let [key, value] of activity_map){
 		activities.push({"Activity": key, "Count": value});
 	}
 
 	var distances = Array();
+	
+	//since time.getDay() returns a number, use this array to translate into string
 
 	var day_trans = ["Sun", "Mon", "Tue", "Wed", "Thurs", "Fri", "Sat"]
+
+	//packaging distance graph info for three top activities in JSON form, and adding each object to array
 
 	for(let tweet of tweet_array){
 		if(tweet.activityType == three_most.first_most){
@@ -67,6 +78,8 @@ function parseTweets(runkeeper_tweets) {
 			distances.push({ "Day": day_trans[tweet.time.getDay()], "Activity": three_most.third_most, "Distance (mi)": tweet.distance });
 		}
 	}
+
+	//updating all spans
 
 	$("#numberActivities").text(activity_map.size);
 	$("#firstMost").text(three_most.first_most);
@@ -152,11 +165,13 @@ function parseTweets(runkeeper_tweets) {
 	
 	vegaEmbed('#distanceVisAggregated', distance_vis_agg_spec, {actions: false});
 	
+	//set default: show all activities and hide aggregated
+
 	var aggregate = false;
 	$('#distanceVis').show();
 	$('#distanceVisAggregated').hide();
 
-
+	//on each click, toggle graphs and change button text
 	$("#aggregate").click(function(){
 		if(aggregate){
 			$("#aggregate").text("Show means");

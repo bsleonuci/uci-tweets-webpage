@@ -1,3 +1,5 @@
+//find earliest tweet and return
+
 function getEarliestTweet(tweet_array){
 	var earliest = tweet_array[0];
 	var earliestTime = earliest.time.valueOf();
@@ -11,6 +13,8 @@ function getEarliestTweet(tweet_array){
 	}
 	return earliest;
 }
+
+//find latest tweet and return
 
 function getLatestTweet(tweet_array){
 	var latest = tweet_array[0];
@@ -26,6 +30,8 @@ function getLatestTweet(tweet_array){
 	return latest;
 }
 
+//get counts of each activity type for all tweets in one loop, return in counter object
+
 function getCounts(tweet_array){
 	var counter = { completed_count: 0, achievement_count: 0, event_count: 0, misc_count: 0, written_count: 0 };
 	for (let tweet of tweet_array){
@@ -40,6 +46,7 @@ function getCounts(tweet_array){
 	return counter;
 }
 
+//take a count and a total and return in formatted decimal form as percent (% symbol is not added here)
 
 function toPercent(part, total){
 	var percent = part/total;
@@ -64,6 +71,9 @@ function parseTweets(runkeeper_tweets) {
 
 	$('#numberTweets').text(total);
 	//TODO: remove these
+	
+	//update all spans with calculated values
+	
 	$('#firstDate').text(earliest_tweet.time.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
 	$('#lastDate').text(latest_tweet.time.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }));
 	$('.completedEvents').text(counter.completed_count);
