@@ -100,7 +100,7 @@ function parseTweets(runkeeper_tweets) {
 
 	//TODO: create the visualizations which group the three most-tweeted activities by the day of the week.
 	//Use those visualizations to answer the questions about which activities tended to be longest and when.
-	distance_vis_spec = {
+	var distance_vis_spec = {
 		"$schema": "https://vega.github.io/schema/vega-lite/v2.6.0.json",
 		"description": "A graph of day vs distance, with activities encoded by color.",
 		"data":{
@@ -121,10 +121,11 @@ function parseTweets(runkeeper_tweets) {
 				type: "nominal"
 			}
 		}
-	}
+	};
+	
 	vegaEmbed('#distanceVis', distance_vis_spec, {actions:false});
 
-	distance_vis_agg_spec = {
+	var distance_vis_agg_spec = {
 		"$schema": "https://vega.github.io/schema/vega-lite/v2.6.0.json",
 		"description": "A graph of day vs distance, with activities encoded by color. Aggregated by mean.",
 		"data":{
@@ -146,17 +147,29 @@ function parseTweets(runkeeper_tweets) {
 				type: "nominal"
 			}
 		}
-	}
+	};
 	
+	
+	vegaEmbed('#distanceVisAggregated', distance_vis_agg_spec, {actions: false});
+	
+	var aggregate = false;
+	$('#distanceVis').show();
 	$('#distanceVisAggregated').hide();
 
-	vegaEmbed('#distanceVisAggregated', distance_vis_agg_spec, {actions: false});
-			
+
 	$("#aggregate").click(function(){
-		if($("#aggregate").html() == "Show means") $("#aggregate").html("Show all activities");
-		else if($("#aggregate").html() == "Show all activities") $("#aggregate").html("Show means");
-		$('#distanceVis').toggle();
-		$('#distanceVisAggregated').toggle();
+		if(aggregate){
+			$("#aggregate").text("Show means");
+			aggregate = false;
+			$('#distanceVis').show();
+			$('#distanceVisAggregated').hide();
+		}
+		else{ 
+			$("#aggregate").text("Show all activities");
+			aggregate = true;
+			$('#distanceVis').hide();
+			$('#distanceVisAggregated').show();
+		}
 	});
 
 
